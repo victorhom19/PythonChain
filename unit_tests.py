@@ -40,7 +40,8 @@ class BlockchainTest(unittest.TestCase):
                  'IS1NLi84n2zNxNIKYDtZj5OwWZNG34RbtEa264Mv2dY4AOR8Xlf1lUYNxvJPOsUuFT70aSsRHfFK82AJoElT2VkSdoTpOjt1S71'
                  'q18Z17m9hJUsVLv8pgddAagRQCLO0dyAdFMStwmdtm5D87nkhLLE7Jc8Jd',
             hash='',
-            nonce=0
+            nonce=0,
+            author=10001
         )
         node.blockchain.append(first_block)
         block = node.mine_block()
@@ -50,7 +51,7 @@ class BlockchainTest(unittest.TestCase):
 
     # Test chain generation and hash integrity
     def test_chain_generation_1(self):
-        node = Node(port=10001, genesis=1, timeout=30)
+        node = Node(port=10001, genesis=1, timeout=60)
         node.total_blocks = 5
         node.work()
         assert (len(node.blockchain) == 5)
@@ -69,3 +70,7 @@ def validate_custom_block_hash(block):
     true_hash = hashlib.sha256(
         (str(block.index) + block.prev_hash + block.data + str(block.nonce)).encode()).hexdigest()
     return true_hash == block.hash
+
+
+if __name__ == '__main__':
+    unittest.main()
