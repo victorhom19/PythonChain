@@ -9,7 +9,7 @@ class BlockchainTest(unittest.TestCase):
 
     # Test first block generation with pre-calculated hash and set random seed
     def test_block_generation_1(self):
-        node = Node(genesis=1)
+        node = Node(port=10001, genesis=1)
         random.seed(12345)
         block = node.mine_block()
         assert (block is not None)
@@ -18,7 +18,7 @@ class BlockchainTest(unittest.TestCase):
 
     # Test pure first block generation
     def test_block_generation_2(self):
-        node = Node(genesis=1)
+        node = Node(port=10001, genesis=1)
         block = node.mine_block()
         assert (block is not None)
         assert (validate_custom_block_hash(block))
@@ -26,13 +26,13 @@ class BlockchainTest(unittest.TestCase):
 
     # Test first block generation with genesis set to 0
     def test_block_generation_3(self):
-        node = Node(genesis=0)
+        node = Node(port=10001, genesis=0)
         block = node.mine_block()
         assert (block is None)
 
     # Test block generation with pre-generated first block
     def test_block_generation_4(self):
-        node = Node(genesis=0)
+        node = Node(port=10001, genesis=0)
         first_block = Block(
             index=0,
             prev_hash='F4dGBuWdpjnzHdAzH8g81yJWRMg6JJd2NyIu4ElOwM80BLUoB0lqzFFa3XQC5k5w',
@@ -50,7 +50,7 @@ class BlockchainTest(unittest.TestCase):
 
     # Test chain generation and hash integrity
     def test_chain_generation_1(self):
-        node = Node(genesis=1, timeout=30)
+        node = Node(port=10001, genesis=1, timeout=30)
         node.total_blocks = 5
         node.work()
         assert (len(node.blockchain) == 5)
@@ -60,7 +60,7 @@ class BlockchainTest(unittest.TestCase):
 
     # Test chain generation with genesis set to 0
     def test_chain_generation_2(self):
-        node = Node(genesis=0, timeout=30)
+        node = Node(port=10001, genesis=0, timeout=30)
         node.work()
         assert len(node.blockchain) == 0
 
