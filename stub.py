@@ -1,9 +1,7 @@
 import argparse
 import json
 import socket
-import string
 import time
-import random
 
 from blockchain import Block
 from blockchain import MessageType
@@ -27,7 +25,8 @@ class ValidBlockStub:
                  'hZF2MhyfEu8GSxfSClDkwwMyD4h4AJ459BYWXQULteh9T0HS4QDd42wAJ2TD9K95BpmnpndMhNiQC0OSnFFRCYsWQPwUlKariN' \
                  'KpUgwMGMv8sJjrklBg2gbVvlL7U9umNP6DpKK5Vqvi4f4aBxlhtst0E29ThT',
             nonce=856847,
-            hash='67df28eb159c875d4914e8fbf3ed7002b38fef13e2d17e20230f1d39e5f00000'
+            hash='67df28eb159c875d4914e8fbf3ed7002b38fef13e2d17e20230f1d39e5f00000',
+            author=self.port
         )
 
         msg = {
