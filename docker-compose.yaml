@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+
+
+  node1:
+    build: .
+    network_mode: "host"
+    command: python -u blockchain.py --port 10001 --genesis 1
+
+  node2:
+    build: .
+    network_mode: "host"
+    command: python -u blockchain.py --port 10002 --genesis 0
+
+  node3:
+    build: .
+    network_mode: "host"
+    command: python -u blockchain.py --port 10003 --genesis 0
