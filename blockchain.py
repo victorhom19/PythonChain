@@ -28,11 +28,12 @@ class MessageType(Enum):
 
 class Node:
 
-    def __init__(self, port, genesis, total_blocks=10, timeout=120):
+    def __init__(self, port, genesis, total_blocks=10, timeout=120, log=False):
         self.port = port
         self.genesis = genesis
         self.total_blocks = total_blocks
         self.timeout = timeout
+        self.log = log
 
         self.blockchain = []
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -169,7 +170,8 @@ async def run_node(node):
         }
     )
     node.sock.close()
-    print(json.dumps(node.blockchain[-1].__dict__, indent=4))
+    if node.log:
+        print(json.dumps(node.blockchain[-1].__dict__, indent=4))
     return node.blockchain
 
 
@@ -177,7 +179,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--port')
     parser.add_argument('--genesis')
+    parser.add_argument('--log')
     kwargs = vars(parser.parse_args())
-    node = Node(int(kwargs['port']), int(kwargs['genesis']))
+    node = Node(int(kwargs['port']), int(kwargs['genesis']), log=bool(int(kwargs['log'])))
     asyncio.run(run_node(node))
     node.sock.close()
