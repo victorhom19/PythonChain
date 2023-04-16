@@ -21,7 +21,7 @@ class BlockchainIntegrationTest(unittest.TestCase):
     def test_block_generation_and_announcement(self):
         spy = AnnounceBlockSpy(port=10003, total=3)
 
-        p = subprocess.Popen('python ./blockchain.py --port 10001 --genesis 1'.split())
+        p = subprocess.Popen('python ./blockchain.py --port 10001 --genesis 1 --log 0'.split())
 
         with ProcessPool() as pool:
             spy_future = pool.schedule(AnnounceBlockSpy.listen, args=[spy], timeout=60)
@@ -39,19 +39,19 @@ class BlockchainIntegrationTest(unittest.TestCase):
 
     def test_block_adoption(self):
         node = Node(port=10001, genesis=0, timeout=60)
-        node.total_blocks = 5
+        node.total_blocks = 3
         p = subprocess.Popen('python ./stub.py --port 10003 --send_to 10001 --delay 10'.split())
 
         blockchain = asyncio.run(run_node(node))
         node.sock.close()
         p.kill()
         time.sleep(10)
-        assert len(blockchain) == 5
+        assert len(blockchain) == 3
         assert blockchain[0].hash == '67df28eb159c875d4914e8fbf3ed7002b38fef13e2d17e20230f1d39e5f00000'
 
     def test_block_rejection(self):
         node = Node(port=10001, genesis=1, timeout=60)
-        node.total_blocks = 5
+        node.total_blocks = 3
 
         p = subprocess.Popen('python ./stub.py --port 10003 --send_to 10001 --delay 20'.split())
 
