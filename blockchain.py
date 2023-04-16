@@ -169,6 +169,7 @@ async def run_node(node):
         }
     )
     node.sock.close()
+    print(json.dumps(node.blockchain[-1].__dict__, indent=4))
     return node.blockchain
 
 
